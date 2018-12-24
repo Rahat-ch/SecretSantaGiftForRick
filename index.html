@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Rap Lyrics Generator</title>
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid text-center" style="margin-bottom:0;">
+  <h1 class="display-4">Rap Generator</h1>
+  <p class="lead">Become a hip hop superstar with this app.</p>
+  <hr class="my-4">
+  <p>Fill in the requested words below and watch the magic begin!</p>
+</div>
+
+<div id="bodyDiv" style="height: 100vh; background-color: grey; margin-top:0;">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-5">
+            <div class="form-area">
+        <form role="form">
+        <br style="clear:both">
+                    <h3 style="margin-bottom: 25px; text-align: center;">Fill out some words!</h3>
+    				<div class="form-group">
+						<input type="text" class="form-control" id="noun" name="noun" placeholder="noun" required>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="noun2" name="noun2" placeholder="noun2" required>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="verb" name="verb" placeholder="verb" required>
+					</div>
+
+        <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Submit Words</button>
+        <button type="button" id="submit1" name="submit1" class="btn btn-primary pull-right">Get Rhyme</button>
+        <button type="button" id="submit2" name="submit2" class="btn btn-primary pull-right">Generate rap</button>
+        </form>
+    </div>
+          </div>
+          <div class="col-md-offset-1 col-md-5" style="margin-left:15%; margin-top:7%;">
+            <div id="textArea" class="text-center" style="background-color: white; border: 1px solid black; border-radius:5px;">
+              To get started fill out the words to the left and click Submit!
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+    // $(document).on('click', '#submit', function()
+
+  var noun;
+  var noun2;
+  var verb;
+  var rhyme =[];
+  var rhyme1 =[];
+  var rhyme2 =[];
+  var columbia = "columbia";
+  var rhyme3 =[];
+
+
+  var rhymer = function(word,arr){
+    var queryURL = "https://api.datamuse.com/words?rel_rhy=" + word;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+      .then(function(response) {
+        arr.push(response[0].word)
+      })
+  };
+
+  $(document).on('click', '#submit', function(event){
+    event.preventDefault(event);
+    noun = document.getElementById("noun").value;
+    noun2 = document.getElementById("noun2").value;
+    verb = document.getElementById("verb").value;
+    document.getElementById("textArea").innerHTML = ("Words accepted! Click on Get Rhyme!")
+  });
+
+  $(document).on('click', '#submit1', function(event){
+    event.preventDefault(event);
+    rhymer(noun, rhyme);
+    rhymer(noun2, rhyme1);
+    rhymer(verb, rhyme2);
+    rhymer(columbia, rhyme3);
+    document.getElementById("textArea").innerHTML = ("Rhymes attained, Generate your hot fire rap now!")
+  });
+
+  $(document).on('click', '#submit2', function(event){
+    event.preventDefault(event);
+      document.getElementById("textArea").innerHTML = ("I rap like a " + noun + "<br> You can call me a " + rhyme[0] + "<br> My flow tighter than a " + noun2 + "<br> I code and spit all these " + rhyme1[0] + "<br> Take my proverbs and " + verb + "<br> I know yall are " + rhyme2[0] + "<br> Repping trilogy at Columbia <br> We got skills like " + rhyme3[0] + "<br> <br> Refresh to start over!");
+  });
+
+
+
+
+    </script>
+  </body>
+</html>
